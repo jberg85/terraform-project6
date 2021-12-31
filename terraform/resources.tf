@@ -58,7 +58,7 @@ resource "aws_instance" "nginx-server" {
 }
 
 resource "aws_security_group" "web" {
-  name        = "default-web-example"
+  name        = "default-web"
   description = "Security group for web that allows web traffic from internet"
   #vpc_id      = "${aws_vpc.vpc.id}"
 
@@ -77,12 +77,12 @@ resource "aws_security_group" "web" {
   }
 
   tags = {
-    Name = "web-example-default-vpc"
+    Name = "web-default-vpc"
   }
 }
 
 resource "aws_security_group" "ssh" {
-  name        = "default-ssh-example"
+  name        = "default-ssh"
   description = "Security group for nat instances that allows SSH and VPN traffic from internet"
   #vpc_id      = "${aws_vpc.vpc.id}"
 
@@ -94,12 +94,12 @@ resource "aws_security_group" "ssh" {
   }
 
   tags = {
-    Name = "ssh-example-default-vpc"
+    Name = "ssh-default-vpc"
   }
 }
 
 resource "aws_security_group" "egress-tls" {
-  name        = "default-egress-tls-example"
+  name        = "default-egress-tls"
   description = "Default security group that allows inbound and outbound traffic from all instances in the VPC"
   #vpc_id      = "${aws_vpc.vpc.id}"
 
@@ -111,12 +111,12 @@ resource "aws_security_group" "egress-tls" {
   }
 
   tags = {
-    Name = "egress-tls-example-default-vpc"
+    Name = "egress-tls-default-vpc"
   }
 }
 
 resource "aws_security_group" "ping-ICMP" {
-  name        = "default-ping-example"
+  name        = "default-ping"
   description = "Default security group that allows to ping the instance"
   #vpc_id      = "${aws_vpc.vpc.id}"
 
@@ -129,12 +129,12 @@ resource "aws_security_group" "ping-ICMP" {
   }
 
   tags = {
-    Name = "ping-ICMP-example-default-vpc"
+    Name = "ping-ICMP-default-vpc"
   }
 }
 
 resource "aws_security_group" "web_server" {
-  name        = "default-web_server-example"
+  name        = "default-web_server"
   description = "Default security group that allows to use port 8080"
   #vpc_id      = "${aws_vpc.vpc.id}"
   
@@ -146,6 +146,6 @@ resource "aws_security_group" "web_server" {
   }
 
   tags = {
-    Name = "web_server-example-default-vpc"
+    Name = "web_server-default-vpc"
   }
 }
