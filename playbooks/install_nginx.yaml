@@ -1,12 +1,28 @@
 - hosts: nginx
   become: yes
   tasks:
-  - name: "apt-get update"
+  - name: apt-get update
     apt:
       update_cache: yes
       cache_valid_time: 3600
 
-  - name: "install nginx"
+  - name: install nginx
     apt:
       name: ['nginx']
       state: latest
+
+  - name: copy nginx config file
+    copy: src=nginx.conf dest=/etc/nginx/sites-available/default
+
+  - name: enable configuration
+    file: >
+      dest=/etc/nginx/sites-enabled/default
+      src=/etc/nginx/sites-available/default
+      state=link
+
+  - name: copy index.html
+    template: src=index.html.j2 dest=/usr/share/nginx/html/index.html
+        mode=0644
+        
+  - name: restart nginx
+    service: name=nginx state=restarted

@@ -1,18 +1,18 @@
-resource "aws_key_pair" "demo_key" {
+resource "aws_key_pair" "main-key" {
   key_name   = "main-key"
   public_key = "${file(var.public_key)}"
 }
 
 /*
-resource "aws_vpc" "my-vpc" {
-  cidr_block           = "10.0.0.0/16" # Defines overall VPC address space
-  enable_dns_hostnames = true          # Enable DNS hostnames for this VPC
-  enable_dns_support   = true          # Enable DNS resolving support for this VPC
+resource "aws_vpc" "vpc" {
+  cidr_block           = "10.0.0.0/16"
+  enable_dns_hostnames = true
+  enable_dns_support   = true
   instance_tenancy     = "default"
   enable_classiclink   = "false"
 
-  tags {
-    Name = "VPC-my-vpc" # Tag VPC with name
+  tags = {
+    Name = "VPC"
   }
 }
 */
@@ -21,7 +21,7 @@ resource "aws_instance" "nginx-server" {
   count = "${var.instance_count}"
   ami           = "${var.ami}"
   instance_type = "${var.instance}"
-  key_name      = "${aws_key_pair.demo_key.key_name}"
+  key_name      = "${aws_key_pair.main-key.key_name}"
 
   vpc_security_group_ids = [
     "${aws_security_group.web.id}",
@@ -60,7 +60,7 @@ resource "aws_instance" "nginx-server" {
 resource "aws_security_group" "web" {
   name        = "default-web-example"
   description = "Security group for web that allows web traffic from internet"
-  #vpc_id      = "${aws_vpc.my-vpc.id}"
+  #vpc_id      = "${aws_vpc.vpc.id}"
 
   ingress {
     from_port   = 80
@@ -84,7 +84,7 @@ resource "aws_security_group" "web" {
 resource "aws_security_group" "ssh" {
   name        = "default-ssh-example"
   description = "Security group for nat instances that allows SSH and VPN traffic from internet"
-  #vpc_id      = "${aws_vpc.my-vpc.id}"
+  #vpc_id      = "${aws_vpc.vpc.id}"
 
   ingress {
     from_port   = 22
@@ -101,7 +101,7 @@ resource "aws_security_group" "ssh" {
 resource "aws_security_group" "egress-tls" {
   name        = "default-egress-tls-example"
   description = "Default security group that allows inbound and outbound traffic from all instances in the VPC"
-  #vpc_id      = "${aws_vpc.my-vpc.id}"
+  #vpc_id      = "${aws_vpc.vpc.id}"
 
   egress {
     from_port   = 0
@@ -118,7 +118,7 @@ resource "aws_security_group" "egress-tls" {
 resource "aws_security_group" "ping-ICMP" {
   name        = "default-ping-example"
   description = "Default security group that allows to ping the instance"
-  #vpc_id      = "${aws_vpc.my-vpc.id}"
+  #vpc_id      = "${aws_vpc.vpc.id}"
 
   ingress {
     from_port        = -1
@@ -136,7 +136,7 @@ resource "aws_security_group" "ping-ICMP" {
 resource "aws_security_group" "web_server" {
   name        = "default-web_server-example"
   description = "Default security group that allows to use port 8080"
-  #vpc_id      = "${aws_vpc.my-vpc.id}"
+  #vpc_id      = "${aws_vpc.vpc.id}"
   
   ingress {
     from_port   = 8080
