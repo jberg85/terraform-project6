@@ -1,2 +1,5 @@
 .terraform/
 terraform/.terraform.lock.hcl
+terraform/nginx.ini
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
