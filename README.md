@@ -1,4 +1,4 @@
-# Terraform + Ansible + AWS (Project-6)
+# [Project-6] Terraform + Ansible + AWS
 
 I started this project over the weekend where I created an AWS account and began diving into cloud infrastructure and Terraform.
 
